@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import CONST from '../../const'
+import {BASE_URL} from '../../const'
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -33,7 +33,7 @@ export default class Login extends React.Component {
 
     clickLogin = (event) => {
 
-        axios.get(CONST.BASE_URL + "/api/clients")
+        axios.get(BASE_URL + "/api/clients")
             .then((res) => {
                 let data = res.data;
                 let index = null;

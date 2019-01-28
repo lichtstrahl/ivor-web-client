@@ -1,20 +1,20 @@
 import * as React from 'react'
 
 interface LabelState {
-    text: string
 }
 
 export default class Label extends React.Component<{}, LabelState> {
+    private readonly text:string;
 
-    constructor(props: {}) {
+    constructor(props: {text:string}) {
        super(props);
-       this.state = {text: ""};
+       this.text = props.text;
     }
 
     render() {
         return (
             <div>
-                {this.state.text}
+                {this.text}
             </div>
         )
     }

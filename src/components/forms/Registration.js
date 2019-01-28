@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import CONST from '../../const'
+import {BASE_URL} from '../../const'
 
 export default class Registration extends React.Component{
     constructor(props) {
@@ -84,7 +84,7 @@ export default class Registration extends React.Component{
                 lastEntry : new Date().toDateString()
             };
 
-            axios.post(CONST.BASE_URL + "/api/clients/insert", user)
+            axios.post(BASE_URL + "/api/clients/insert", user)
                 .then((res) => {
                     if (res.status === 200) {
                         this.successfulRegistrationCallback();
