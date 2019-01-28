@@ -5,6 +5,12 @@ import BASE_URL from '../../const'
 export default class Login extends React.Component {
     constructor(props) {
         super(props);
+
+        this.successfulLoginCallback = props.successfulLogin;
+        this.failedLoginCallback = props.failedLogin;
+
+        console.log(this);
+
         this.state = {
             login : "",
             password: "",
@@ -34,12 +40,12 @@ export default class Login extends React.Component {
                 let data = res.data;
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].login === this.state.login && data[i].pass === this.state.password) {
-                        alert("YES");
+                        this.successfulLoginCallback();
                         return;
                     }
                 }
 
-                alert("NO");
+                this.failedLoginCallback();
             });
         event.preventDefault(); // Чтобы избежать перезагрузки страницы
     };
