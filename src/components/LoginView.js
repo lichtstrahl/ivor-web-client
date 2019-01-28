@@ -7,6 +7,7 @@ export default class LoginView extends React.Component {
         super(props);
         this.successfulLoginCallback = props.successfulLogin;
         this.failedLoginCallback = props.failedLogin;
+        this.clickRegistrationCallback = props.clickRegistration;
         console.log(this);
     }
 
@@ -15,7 +16,9 @@ export default class LoginView extends React.Component {
             <div>
                 <Label text={"Вход 2"}/>
                 <Login successfulLogin={this.successfulLoginCallback} failedLogin={this.failedLoginCallback}/>
+                <button onClick={this.clickRegistrationCallback}>Регистрация</button>
             </div>
         )
     }
+
 }
