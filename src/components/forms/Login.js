@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import BASE_URL from '../../const'
+import CONST from '../../const'
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -8,8 +8,6 @@ export default class Login extends React.Component {
 
         this.successfulLoginCallback = props.successfulLogin;
         this.failedLoginCallback = props.failedLogin;
-
-        console.log(this);
 
         this.state = {
             login : "",
@@ -35,17 +33,17 @@ export default class Login extends React.Component {
 
     clickLogin = (event) => {
 
-        axios.get(BASE_URL + "/api/clients")
+        axios.get(CONST.BASE_URL + "/api/clients")
             .then((res) => {
                 let data = res.data;
+                let index = null;
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].login === this.state.login && data[i].pass === this.state.password) {
-                        this.successfulLoginCallback();
-                        return;
+                        index = i;
+                        break;
                     }
                 }
-
-                this.failedLoginCallback();
+                index != null ? (this.successfulLoginCallback(data[index])) : (this.failedLoginCallback());
             });
         event.preventDefault(); // Чтобы избежать перезагрузки страницы
     };
