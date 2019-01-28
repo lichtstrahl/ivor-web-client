@@ -86,10 +86,12 @@ export default class Registration extends React.Component{
 
             axios.post(CONST.BASE_URL + "/api/clients/insert", user)
                 .then((res) => {
-                    const data = res.data;
-                    console.log(data);
+                    if (res.status === 200) {
+                        this.successfulRegistrationCallback();
+                    } else {
+                        alert("Ошибка на сервере");
+                    }
                 });
-            this.successfulRegistrationCallback();
         }
         event.preventDefault();
 
