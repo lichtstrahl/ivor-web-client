@@ -1,51 +1,57 @@
-import * as React from 'react'
+import React from 'react'
 
 import {User} from '../types/user'
-import ListView from "./primitive/ListView";
 import MessageList from "./primitive/MessageList";
+import {Button, Card, FormControl, InputGroup} from "react-bootstrap";
 import {Message} from "../types/message";
-import {Button, Card} from "react-bootstrap";
 
-type MsgProps = {
+type Props = {
     user : User
 }
 
-type MsgState = {
-    user : User
-}
 
-export default class MsgView extends React.Component<MsgProps, MsgState> {
-    constructor(props:MsgProps) {
-        super(props);
-
-        this.state = {
-            user : props.user
-        }
-    }
+export default class MsgView extends React.Component<Props, {}> {
+    private input:string = "";
+    private user:User = this.props.user;
+    private adapter:Array<Message> = [];
+    private messageView:React.ReactNode = <MessageList messages={this.adapter}/>;
 
     render() {
-        let m1:Message = {
-            content: "Контент",
-            author: this.state.user,
-            date: new Date()
+        const m:Message = {
+          author:this.user,
+          content:"Init",
+          date: new Date()
         };
 
-        let m2:Message = {
-            content: "Сообщение",
-            author: this.state.user,
-            date: new Date()
-        };
+        this.messageView = <MessageList messages={this.adapter}/>;
 
-        let messages:Array<Message> = [m2, m1, m2];
         return (
             <div>
                 <Card className="mx-auto" style={{width:'50%'}}>
-                    <Card.Body>Добро пожаловать, {this.state.user.realName}</Card.Body>
+                    <Card.Body>Добро пожаловать, {this.user.realName}</Card.Body>
                 </Card>
-                <MessageList messages={messages}/>
-                <Button variant={"dark"} size={"lg"}>Dark</Button>
-
+                {this.messageView}
+                <InputGroup className={"mb-3"}>
+                    <FormControl id={"input"} placeholder={"Введите сообщение"}/>
+                    <InputGroup.Append>
+                        <Button variant={"dark"} onClick={this.clickSend.bind(this)}>Отправить</Button>
+                    </InputGroup.Append>
+                </InputGroup>
             </div>
         )
+    }
+
+    clickSend (event:React.MouseEvent<HTMLButtonElement, MouseEvent>):void {
+        console.log("Отправить");
+        let input:any = document.getElementById("input");
+
+        let msg:Message = {
+            content:input.value,
+            author:this.user,
+            date: new Date()
+        };
+
+        this.adapter.push(msg);
+        this.forceUpdate();
     }
 }

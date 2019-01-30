@@ -1,6 +1,7 @@
 import React, {ReactNode} from 'react'
 import {Message} from "../../types/message";
 import MessageItem from "./MessageItem/MessageItem";
+
 type Props = {
     messages: Array<Message>
 }
