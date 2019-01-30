@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import {BASE_URL} from '../../const'
 import {User} from "../../types/user";
+import {Button} from "react-bootstrap";
 
 type LoginProps = {
     successfulLogin : ()=>{},
@@ -30,7 +31,7 @@ export default class Login extends React.Component<LoginProps,LoginState> {
     }
 
     render() {
-        return <form onSubmit={this.clickLogin}>
+        return <form>
             <label>
                 Login:
                 <input type={"text"} name={"inputLogin"} placeholder={"логин"} onChange={this.changeLoginText} />
@@ -41,7 +42,7 @@ export default class Login extends React.Component<LoginProps,LoginState> {
                 <input type={"password"} name={"inputPass"} placeholder={"Пароль"} onChange={this.changePasswordText}/>
             </label>
             <br/>
-            <input type={"submit"} value={"Войти"}/>
+            <Button variant={"outline-primary"} onClick={this.clickLogin}>Войти</Button>
         </form>
     }
 

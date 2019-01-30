@@ -26,10 +26,9 @@ export default class LoginView extends React.Component<any, any> {
     render() {
         return (
             <div>
-                <Label text={"Вход 2"}/>
+                <Label text={"Вход"}/>
                 <Login successfulLogin={this.successfulLoginCallback} failedLogin={this.failedLoginCallback}/>
-                <button onClick={this.clickRegistrationCallback}>Регистрация</button>
-                <Button variant={"info"} size={"lg"}>Dark</Button>
+                <Button variant={"outline-secondary"} onClick={this.clickRegistrationCallback}>Регистрация</Button>
             </div>
         )
     }

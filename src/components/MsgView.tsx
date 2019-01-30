@@ -4,7 +4,7 @@ import {User} from '../types/user'
 import ListView from "./primitive/ListView";
 import MessageList from "./primitive/MessageList";
 import {Message} from "../types/message";
-import {Button} from "react-bootstrap";
+import {Button, Card} from "react-bootstrap";
 
 type MsgProps = {
     user : User
@@ -39,7 +39,9 @@ export default class MsgView extends React.Component<MsgProps, MsgState> {
         let messages:Array<Message> = [m1, m2];
         return (
             <div>
-                <h1 color={"red"}>Привет {this.state.user.realName}</h1><br/>
+                <Card className="mx-auto" style={{width:'50%'}}>
+                    <Card.Body>Добро пожаловать, {this.state.user.realName}</Card.Body>
+                </Card>
                 <MessageList messages={messages}/>
                 <Button variant={"dark"} size={"lg"}>Dark</Button>
 
