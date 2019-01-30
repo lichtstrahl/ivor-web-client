@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import {BASE_URL} from '../../const'
-import {User} from "../../user";
+import {User} from "../../types/user";
 
 type Props = {
     successfulRegistration : () => void

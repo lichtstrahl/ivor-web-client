@@ -2,6 +2,7 @@
 import Login from "./forms/Login";
 import Label from "./primitive/Label";
 import * as React from 'react'
+import {Button} from "react-bootstrap";
 
 type LoginProps = {
     successfulLogin     : () => {},
@@ -28,6 +29,7 @@ export default class LoginView extends React.Component<any, any> {
                 <Label text={"Вход 2"}/>
                 <Login successfulLogin={this.successfulLoginCallback} failedLogin={this.failedLoginCallback}/>
                 <button onClick={this.clickRegistrationCallback}>Регистрация</button>
+                <Button variant={"info"} size={"lg"}>Dark</Button>
             </div>
         )
     }
