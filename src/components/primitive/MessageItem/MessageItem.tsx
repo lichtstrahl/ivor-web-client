@@ -1,6 +1,7 @@
 import React from 'react'
-import {Message} from "../../types/message";
+import {Message} from "../../../types/message";
 import {Card} from "react-bootstrap";
+import './style.css'
 
 
 type Props = {
@@ -10,11 +11,11 @@ type Props = {
 export default class MessageItem extends React.Component<Props, {}> {
     render(): React.ReactNode {
         return (
-          <Card border={"primary"} style={{width: '18rem'}}>
+          <Card className="mx-auto" id={"messageCard"} border={"primary"} style={{width:'50%', margin: '14px'}}>
               <Card.Header>{this.props.msg.author.realName}</Card.Header>
-              <Card.Body>
+              <Card.Body id={"cardBody"}>
                   <Card.Title>{this.props.msg.content}</Card.Title>
-                  <Card.Text>{this.props.msg.date.toDateString()}</Card.Text>
+                  <Card.Text>{this.props.msg.date.toDateString() + " " + this.props.msg.author.realName}</Card.Text>
               </Card.Body>
           </Card>
         );

@@ -36,7 +36,7 @@ export default class MsgView extends React.Component<MsgProps, MsgState> {
             date: new Date()
         };
 
-        let messages:Array<Message> = [m1, m2];
+        let messages:Array<Message> = [m2, m1, m2];
         return (
             <div>
                 <Card className="mx-auto" style={{width:'50%'}}>
