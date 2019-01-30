@@ -1,9 +1,20 @@
-import React from 'react'
+
 import Login from "./forms/Login";
 import Label from "./primitive/Label";
+import * as React from 'react'
 
-export default class LoginView extends React.Component {
-    constructor(props) {
+type LoginProps = {
+    successfulLogin     : () => {},
+    failedLogin          : () => {},
+    clickRegistration   : () => {}
+}
+
+export default class LoginView extends React.Component<any, any> {
+    private readonly successfulLoginCallback     : () => {};
+    private readonly failedLoginCallback         : () => {};
+    private readonly clickRegistrationCallback   : () => {};
+
+    constructor(props: LoginProps) {
         super(props);
         this.successfulLoginCallback = props.successfulLogin;
         this.failedLoginCallback = props.failedLogin;
@@ -20,5 +31,4 @@ export default class LoginView extends React.Component {
             </div>
         )
     }
-
 }

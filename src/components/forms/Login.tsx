@@ -1,9 +1,23 @@
 import React from 'react'
 import axios from 'axios'
 import {BASE_URL} from '../../const'
+import {User} from "../../user";
 
-export default class Login extends React.Component {
-    constructor(props) {
+type LoginProps = {
+    successfulLogin : ()=>{},
+    failedLogin     : ()=>{}
+}
+
+type LoginState = {
+    login: string,
+    password: string
+}
+
+export default class Login extends React.Component<LoginProps,LoginState> {
+    private readonly successfulLoginCallback: (user:User)=>{};
+    private readonly failedLoginCallback: ()=>{};
+
+    constructor(props:LoginProps) {
         super(props);
 
         this.successfulLoginCallback = props.successfulLogin;
@@ -11,7 +25,7 @@ export default class Login extends React.Component {
 
         this.state = {
             login : "",
-            password: "",
+            password: ""
         }
     }
 
@@ -31,7 +45,7 @@ export default class Login extends React.Component {
         </form>
     }
 
-    clickLogin = (event) => {
+    clickLogin = (event:any) => {
 
         axios.get(BASE_URL + "/api/clients")
             .then((res) => {
@@ -48,11 +62,11 @@ export default class Login extends React.Component {
         event.preventDefault(); // Чтобы избежать перезагрузки страницы
     };
 
-    changeLoginText = (event) => {
+    changeLoginText = (event:any) => {
         this.setState({login: event.target.value});
     };
 
-    changePasswordText = (event) => {
+    changePasswordText = (event:any) => {
         this.setState({password: event.target.value})
     };
 }

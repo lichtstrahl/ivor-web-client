@@ -4,11 +4,10 @@ import RegView from "./RegView";
 
 import * as React from 'react';
 import {MainViewState} from "../const";
-import {render} from "react-dom";
 
 
 // Login, Msg, Register
-export default class MainView extends React.Component<any, any> {
+export default class MainView extends React.Component<{}, {}> {
     private currentActivity :MainViewState;
     private user :any;
 

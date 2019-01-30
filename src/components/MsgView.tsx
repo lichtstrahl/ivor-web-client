@@ -1,7 +1,17 @@
-import React from 'react'
+import * as React from 'react'
 
-export default class MsgView extends React.Component {
-    constructor(props) {
+import {User} from '../user'
+
+type MsgProps = {
+    user : User
+}
+
+type MsgState = {
+    user : User
+}
+
+export default class MsgView extends React.Component<MsgProps, MsgState> {
+    constructor(props:MsgProps) {
         super(props);
 
         this.state = {

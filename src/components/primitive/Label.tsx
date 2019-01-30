@@ -1,12 +1,14 @@
 import * as React from 'react'
 
-interface LabelState {
+type LabelProps = {
+    text:string;
 }
 
-export default class Label extends React.Component<{}, LabelState> {
+
+export default class Label extends React.Component<LabelProps, any> {
     private readonly text:string;
 
-    constructor(props: {text:string}) {
+    constructor(props: LabelProps) {
        super(props);
        this.text = props.text;
     }
