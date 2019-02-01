@@ -4,11 +4,12 @@ import {User} from '../types/user'
 import MessageList from "./primitive/MessageList";
 import {Button, Card, FormControl, InputGroup} from "react-bootstrap";
 import {Message} from "../types/message";
+import axios, {AxiosResponse} from 'axios'
+import {BASE_URL} from "../const";
 
 type Props = {
     user : User
 }
-
 
 export default class MsgView extends React.Component<Props, {}> {
     private input:string = "";
@@ -50,6 +51,19 @@ export default class MsgView extends React.Component<Props, {}> {
             author:this.user,
             date: new Date()
         };
+
+        axios.post(BASE_URL + "/api/request", {request: input.value})
+            .then((res:AxiosResponse) => {
+                let msg:Message = {
+                  content:res.data.data,
+                  author:this.user,
+                  date: new Date()
+                };
+                this.adapter.push(msg);
+                this.forceUpdate();
+            }, (error) => {
+                console.log(error);
+            });
 
         this.adapter.push(msg);
         this.forceUpdate();

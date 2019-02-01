@@ -6,13 +6,13 @@ import {Button} from "react-bootstrap";
 
 type LoginProps = {
     successfulLogin     : () => {},
-    failedLogin          : () => {},
+    failedLogin          : (msg:string) => {},
     clickRegistration   : () => {}
 }
 
 export default class LoginView extends React.Component<any, any> {
     private readonly successfulLoginCallback     : () => {};
-    private readonly failedLoginCallback         : () => {};
+    private readonly failedLoginCallback         : (msg:string) => {};
     private readonly clickRegistrationCallback   : () => {};
 
     constructor(props: LoginProps) {

@@ -66,8 +66,8 @@ export default class MainView extends React.Component<{}, {}> {
         this.forceUpdate();
     };
 
-    failedLogin = () => {
-        alert("Failed");
+    failedLogin = (msg:string) => {
+        alert("Failed: " + msg);
     };
 
 }

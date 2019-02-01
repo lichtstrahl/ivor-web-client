@@ -1,12 +1,12 @@
 import React from 'react'
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 import {BASE_URL} from '../../const'
 import {User} from "../../types/user";
 import {Button} from "react-bootstrap";
 
 type LoginProps = {
     successfulLogin : ()=>{},
-    failedLogin     : ()=>{}
+    failedLogin     : (msg:string)=>{}
 }
 
 type LoginState = {
@@ -16,7 +16,7 @@ type LoginState = {
 
 export default class Login extends React.Component<LoginProps,LoginState> {
     private readonly successfulLoginCallback: (user:User)=>{};
-    private readonly failedLoginCallback: ()=>{};
+    private readonly failedLoginCallback: (msg:string)=>{};
 
     constructor(props:LoginProps) {
         super(props);
@@ -48,17 +48,11 @@ export default class Login extends React.Component<LoginProps,LoginState> {
 
     clickLogin = (event:any) => {
 
-        axios.get(BASE_URL + "/api/clients")
-            .then((res) => {
+        axios.post(BASE_URL + "/api/login", {login:this.state.login, pass:this.state.password})
+            .then((res:AxiosResponse) => {
                 let data = res.data;
-                let index = null;
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].login === this.state.login && data[i].pass === this.state.password) {
-                        index = i;
-                        break;
-                    }
-                }
-                index != null ? (this.successfulLoginCallback(data[index])) : (this.failedLoginCallback());
+                console.log(data);
+                data.error == 0 ? (this.successfulLoginCallback(data.data)) : (this.failedLoginCallback(data.msg));
             });
         event.preventDefault(); // Чтобы избежать перезагрузки страницы
     };
