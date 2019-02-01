@@ -1,4 +1,4 @@
-export const BASE_URL :string =  "https://pure-headland-78190.herokuapp.com";
+export const BASE_URL :string =  "https://ivor-java-server.herokuapp.com";
 export enum MainViewState {
     ACTIVITY_LOGIN,
     ACTIVITY_REG,
