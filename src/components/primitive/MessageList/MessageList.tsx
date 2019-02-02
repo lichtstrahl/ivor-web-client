@@ -1,10 +1,20 @@
 import React, {ReactNode} from 'react'
-import {Message} from "../../types/message";
-import MessageItem from "./MessageItem/MessageItem";
+import {Message} from "../../../types/message";
+import MessageItem from "../MessageItem/MessageItem";
 
 type Props = {
     messages: Array<Message>
 }
+
+const Style = {
+    overflow: "auto",
+    background: "bisque",
+    border: "1px solid gray",
+    borderRadius: "5px",
+    width: "50%",
+    height: "500px",
+    margin: "auto"
+};
 
 export default class MessageList extends React.Component<Props, any> {
     render(): React.ReactNode {
@@ -16,8 +26,8 @@ export default class MessageList extends React.Component<Props, any> {
         }
 
         return (
-            <div>
-                {messageElements}
+            <div style={Style}>
+                    {messageElements}
             </div>
         )
     }

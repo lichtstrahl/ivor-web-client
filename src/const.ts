@@ -6,3 +6,5 @@ export enum MainViewState {
     ACTIVITY_REG,
     ACTIVITY_MSG
 }
+
+

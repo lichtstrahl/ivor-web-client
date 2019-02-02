@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {User} from '../types/user'
-import MessageList from "./primitive/MessageList";
+import MessageList from "./primitive/MessageList/MessageList";
 import {Button, Card, FormControl, InputGroup} from "react-bootstrap";
 import {Message} from "../types/message";
 import axios, {AxiosResponse} from 'axios'
