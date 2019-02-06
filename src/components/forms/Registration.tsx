@@ -86,7 +86,7 @@ export default class Registration extends React.Component<Props, {}>{
             this.user.lastEntry = new Date();
             this.user.pass = this.pass2;
 
-            axios.post(BASE_URL + "/api/clients/insert", this.user)
+            axios.post(BASE_URL + "/api/register", this.user)
                 .then((res) => {
                     if (res.status === 200) {
                         this.successfulRegistrationCallback();

@@ -1,6 +1,7 @@
 import React, {ReactNode} from 'react'
 import {Message} from "../../../types/message";
 import MessageItem from "../MessageItem/MessageItem";
+import './style.css'
 
 type Props = {
     messages: Array<Message>
@@ -26,8 +27,10 @@ export default class MessageList extends React.Component<Props, any> {
         }
 
         return (
-            <div style={Style}>
+            <div >
+                <div className={"MessageList"}>
                     {messageElements}
+                </div>
             </div>
         )
     }

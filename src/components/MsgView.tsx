@@ -54,8 +54,9 @@ export default class MsgView extends React.Component<Props, {}> {
 
         axios.post(BASE_URL + "/api/request", {request: input.value})
             .then((res:AxiosResponse) => {
+                console.log(res);
                 let msg:Message = {
-                  content:res.data.data,
+                  content:res.data.data.answer,
                   author:this.user,
                   date: new Date()
                 };
