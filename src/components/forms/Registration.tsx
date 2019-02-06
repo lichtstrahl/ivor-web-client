@@ -1,7 +1,8 @@
 import React from 'react'
 import axios from 'axios'
-import {BASE_URL} from '../../const'
+import {BASE_URL, OK} from '../../const'
 import {User} from "../../types/user";
+import {ServerAnswer} from "../../types/serveranswer";
 
 type Props = {
     successfulRegistration : () => void
@@ -32,7 +33,6 @@ export default class Registration extends React.Component<Props, {}>{
             placeholder={"Имя"}
             onChange={(event) => {this.user.realName = event.target.value;}}
         />;
-
         this.inputEmail = <input
             type={"email"}
             placeholder={"Email"}
@@ -89,7 +89,18 @@ export default class Registration extends React.Component<Props, {}>{
             axios.post(BASE_URL + "/api/register", this.user)
                 .then((res) => {
                     if (res.status === 200) {
-                        this.successfulRegistrationCallback();
+
+                        const answer:ServerAnswer = {
+                          error: res.data.error,
+                            msg: res.data.msg,
+                            data:res.data.data
+                        };
+
+                        if (answer.error == OK) {
+                            this.successfulRegistrationCallback();
+                        } else {
+                            alert(answer.msg);
+                        }
                     } else {
                         alert("Ошибка на сервере");
                     }
