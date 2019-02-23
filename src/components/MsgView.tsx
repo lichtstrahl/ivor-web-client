@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 
 import {User} from '../types/user'
 import MessageList from "./primitive/MessageList/MessageList";
@@ -6,13 +6,12 @@ import {Button, Card, FormControl, InputGroup} from "react-bootstrap";
 import {Message} from "../types/message";
 import axios, {AxiosResponse} from 'axios'
 import {BASE_URL} from "../const";
-import {Route} from "react-router";
 
 type Props = {
     user : User
 }
 
-export default class MsgView extends React.Component<Props, {}> {
+export default class MsgView extends Component<Props> {
     private input:string = "";
     private user:User = this.props.user;
     private adapter:Array<Message> = [];
