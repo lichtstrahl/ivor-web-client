@@ -3,15 +3,16 @@ import Login from "./forms/Login";
 import Label from "./primitive/Label";
 import * as React from 'react'
 import {Button} from "react-bootstrap";
+import {User} from "../types/user";
 
 type LoginProps = {
-    successfulLogin     : () => {},
+    successfulLogin     : (user:User) => {},
     failedLogin          : (msg:string) => {},
     clickRegistration   : () => {}
 }
 
 export default class LoginView extends React.Component<any, any> {
-    private readonly successfulLoginCallback     : () => {};
+    private readonly successfulLoginCallback     : (user:User) => {};
     private readonly failedLoginCallback         : (msg:string) => {};
     private readonly clickRegistrationCallback   : () => {};
 

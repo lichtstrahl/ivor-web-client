@@ -4,6 +4,7 @@ import RegView from "./RegView";
 
 import * as React from 'react';
 import {MainViewState} from "../const";
+import {Redirect, Route, Switch} from "react-router";
 
 
 // Login, Msg, Register
@@ -14,45 +15,67 @@ export default class MainView extends React.Component<{}, {}> {
     constructor(props : {}) {
         super(props);
 
-        this.currentActivity = MainViewState.ACTIVITY_LOGIN;
+        this.currentActivity = MainViewState.THIS;
         this.user = null;
     }
 
     render() {
         console.log("MainView: render");
-        const loginView = <LoginView
-            successfulLogin = {this.successfulLogin}
-            failedLogin = {this.failedLogin}
-            clickRegistration = {this.clickRegistration}
-        />;
-        const msgView = <MsgView user = {this.user}/>;
-        const regView = <RegView successfulRegistration={this.successfulRegistration}/>;
 
-        let view;
-        switch (this.currentActivity) {
-            case MainViewState.ACTIVITY_LOGIN:
-                view =loginView;
-                break;
-            case MainViewState.ACTIVITY_MSG:
-                view = msgView;
-                break;
-            case MainViewState.ACTIVITY_REG:
-                view = regView;
-                break;
-            default:
-                view = loginView;
+        if (this.currentActivity == MainViewState.ACTIVITY_MSG) {
+            this.currentActivity = MainViewState.THIS;
+            return <Redirect to={'/msg'}/>;
         }
 
         return (
-            <div>{view}</div>
+            <div>
+                <main>
+                    <Switch>
+                        <Route
+                            exact={true}
+                            path={"/"}
+                            component={()=>
+                                <LoginView
+                                    successfulLogin = {this.successfulLogin}
+                                    failedLogin = {this.failedLogin}
+                                    clickRegistration={this.clickRegistration}
+                                />}
+                        />
+                        <Route
+                            path={"/msg"}
+                            component={() =>
+                                <MsgView
+                                    user={this.user}
+                                />
+                            }
+                        />
+                        <Route
+                            path={"/reg"}
+                            component={() =>
+                                <RegView
+                                    successfulRegistration={this.successfulRegistration}
+                                />
+                            }
+                        />
+                    </Switch>
+                </main>
+            </div>
         )
+
+
     }
 
     successfulLogin = (user:any) => {
+
         this.currentActivity = MainViewState.ACTIVITY_MSG;
         this.user = user;
         this.forceUpdate();
         console.log(user);
+
+    };
+
+    private logActivity = () => {
+        console.log(this.currentActivity);
     };
 
     successfulRegistration = () => {

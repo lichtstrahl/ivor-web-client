@@ -6,6 +6,7 @@ import {Button, Card, FormControl, InputGroup} from "react-bootstrap";
 import {Message} from "../types/message";
 import axios, {AxiosResponse} from 'axios'
 import {BASE_URL} from "../const";
+import {Route} from "react-router";
 
 type Props = {
     user : User

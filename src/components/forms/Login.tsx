@@ -5,7 +5,7 @@ import {User} from "../../types/user";
 import {Button} from "react-bootstrap";
 
 type LoginProps = {
-    successfulLogin : ()=>{},
+    successfulLogin : (user:User)=>{},
     failedLogin     : (msg:string)=>{}
 }
 

@@ -5,7 +5,8 @@ export const OK:number = 0;
 export enum MainViewState {
     ACTIVITY_LOGIN,
     ACTIVITY_REG,
-    ACTIVITY_MSG
+    ACTIVITY_MSG,
+    THIS
 }
 
 
