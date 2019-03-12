@@ -16,7 +16,7 @@ export default class MsgView extends React.Component<Props, {}> {
     private input:string = "";
     private user:User = this.props.user;
     private adapter:Array<Message> = [];
-    private messageView:React.ReactNode = <MessageList messages={this.adapter}/>;
+    private messageList:React.ReactNode = <MessageList messages={this.adapter}/>;
 
     render() {
         const m:Message = {
@@ -25,15 +25,19 @@ export default class MsgView extends React.Component<Props, {}> {
           date: new Date()
         };
 
-        this.messageView = <MessageList messages={this.adapter}/>;
 
+        this.messageList = <MessageList messages={this.adapter}/>;
+
+
+        let size:string = '90%';
         return (
             <div>
-                <Card className="mx-auto" style={{width:'50%'}}>
+                <Card className="mx-auto" style={{width:size}}>
                     <Card.Body>Добро пожаловать, {this.user.realName}</Card.Body>
                 </Card>
-                {this.messageView}
-                <div style={{width:'50%', margin:'auto'}}>
+
+                {this.messageList}
+                <div style={{width:size, margin:'auto'}}>
                     <InputGroup className={"mb-3"} >
                         <FormControl id={"input"} placeholder={"Введите сообщение"}/>
                         <InputGroup.Append>
@@ -60,7 +64,7 @@ export default class MsgView extends React.Component<Props, {}> {
                 console.log(res);
                 let msg:Message = {
                   content:res.data.data.answer,
-                  author:this.user,
+                  author:null,
                   date: new Date()
                 };
                 this.adapter.push(msg);
