@@ -7,16 +7,6 @@ type Props = {
     messages: Array<Message>
 }
 
-const Style = {
-    overflow: "auto",
-    background: "bisque",
-    border: "1px solid gray",
-    borderRadius: "5px",
-    width: "50%",
-    height: "500px",
-    margin: "auto"
-};
-
 export default class MessageList extends React.Component<Props, any> {
     render(): React.ReactNode {
         const messageElements:Array<ReactNode> = [];

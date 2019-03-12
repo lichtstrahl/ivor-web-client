@@ -6,6 +6,7 @@ import {Button, Card, FormControl, InputGroup} from "react-bootstrap";
 import {Message} from "../types/message";
 import axios, {AxiosResponse} from 'axios'
 import {BASE_URL} from "../const";
+import './style.css';
 
 type Props = {
     user : User
@@ -32,12 +33,14 @@ export default class MsgView extends React.Component<Props, {}> {
                     <Card.Body>Добро пожаловать, {this.user.realName}</Card.Body>
                 </Card>
                 {this.messageView}
-                <InputGroup className={"mb-3"}>
-                    <FormControl id={"input"} placeholder={"Введите сообщение"}/>
-                    <InputGroup.Append>
-                        <Button variant={"dark"} onClick={this.clickSend.bind(this)}>Отправить</Button>
-                    </InputGroup.Append>
-                </InputGroup>
+                <div style={{width:'50%', margin:'auto'}}>
+                    <InputGroup className={"mb-3"} >
+                        <FormControl id={"input"} placeholder={"Введите сообщение"}/>
+                        <InputGroup.Append>
+                            <Button variant={"dark"} onClick={this.clickSend.bind(this)}>Отправить</Button>
+                        </InputGroup.Append>
+                    </InputGroup>
+                </div>
             </div>
         )
     }
@@ -67,6 +70,7 @@ export default class MsgView extends React.Component<Props, {}> {
             });
 
         this.adapter.push(msg);
+        input.value = "";
         this.forceUpdate();
     }
 }
