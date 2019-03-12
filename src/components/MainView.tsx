@@ -4,18 +4,24 @@ import RegView from "./RegView";
 
 import * as React from 'react';
 import {MainViewState} from "../const";
+import {Cookies, ReactCookieProps, withCookies} from "react-cookie";
 
+interface Props extends ReactCookieProps {
+}
 
 // Login, Msg, Register
-export default class MainView extends React.Component<{}, {}> {
+class MainView extends React.Component<Props, {}> {
     private currentActivity :MainViewState;
     private user :any;
+    private cookie :Cookies|undefined;
 
-    constructor(props : {}) {
+    constructor(props : Props) {
         super(props);
 
         this.currentActivity = MainViewState.ACTIVITY_LOGIN;
         this.user = null;
+        this.cookie = props.cookies;
+        console.log(this.cookie);
     }
 
     render() {
@@ -69,5 +75,6 @@ export default class MainView extends React.Component<{}, {}> {
     failedLogin = (msg:string) => {
         alert("Failed: " + msg);
     };
-
 }
+
+export default withCookies(MainView);
