@@ -9,16 +9,17 @@ const decA = {
 };
 // Только эта функция будет иметь возможность изменять состояние
 // Передаётся состояние и действие, которое необходимо выполнить
+// Функция - reducer. Она не изменяет состояние, а возвращает новое. Данная функция является чистой
 function updateState(state, action) {
     if (action.type === 'INC')
-        return state + action.arg;
+        return {count: state.count + action.arg};
     if (action.type === 'DEC')
-        return state - action.arg;
+        return {count: state.count - action.arg};
 
     return state;
 }
 
-class Store {
+export default class Store {
     constructor(state, updateState) {
         this._state = state;
         this._update = updateState;
@@ -38,13 +39,12 @@ class Store {
         this._callbacks.push(callback);
         return () => this._callbacks = this._callbacks.filter(cb => cb !== callback);
     }
-
-
 }
 
-const store = new Store(0, updateState);
-const unsubscribe = store.subscribe(() => console.log("State changed1: " + store.state));
+const initState = {count: 0};
+const store = new Store(initState, updateState);
+const unsubscribe = store.subscribe(() => console.log("State changed1:", store.state));
 store.update(incA);
 store.update(decA);
-unsubscribe();
+// unsubscribe();
 store.update({});
