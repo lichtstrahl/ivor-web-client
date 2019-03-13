@@ -30,11 +30,11 @@ import {BrowserRouter, Route, Router} from "react-router-dom"
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Store from './store';
+import {createStore} from 'redux';
 
 const initState = {count:0};
 
-function updateState(state, action) {
+function reducer(state = {count: 0}, action) {
     switch (action.type) {
         case "INC":
             return {count: state.count + action.arg};
@@ -53,7 +53,7 @@ const incA =    {type: "INC",   arg: 1};
 const decA =    {type: "DEC",   arg: 1};
 const resetA =  {type: "RESET", arg: 0};
 
-const store = new Store(initState, updateState);
+const store = createStore(reducer);
 
 class Counter extends React.Component {
     constructor(props) {
@@ -70,29 +70,27 @@ class Counter extends React.Component {
     }
 
     increment() {
-        store.update(incA);
+        store.dispatch(incA);
     }
 
     decrement() {
-        store.update(decA);
+        store.dispatch(decA);
     }
 
     reset() {
-        store.update(resetA);
+        store.dispatch(resetA);
     }
 
     render() {
         return (
             <div className={"counter"}>
-                <span className={"count"}>{store.state.count}</span>
+                <span className={"count"}>{store.getState().count}</span>
 
                 <div className={"buttons"}>
                     <button className={"decrement"} onClick={this.decrement}>-</button>
                     <button className={"increment"} onClick={this.increment}>+</button>
                     <button className={"reset"} onClick={this.reset}>reset</button>
                 </div>
-
-                <span className={"count"}>{store.state.count}</span>
             </div>
         );
     }
