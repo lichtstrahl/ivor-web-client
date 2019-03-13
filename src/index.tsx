@@ -4,9 +4,12 @@ import {BrowserRouter, Route} from "react-router-dom"
 import LoginView from "./components/LoginView";
 import RegView from "./components/RegView";
 import MsgView from "./components/MsgView";
-import {createStore, DeepPartial} from "redux"
+import {createStore, DeepPartial, compose} from "redux"
 import {Provider} from "react-redux"
 import {State} from "./types/State";
+import persistState from "redux-localstorage";
+
+
 import {
     Action,
     ActionType,
@@ -48,17 +51,23 @@ export function updateStore(_state:DeepPartial<State>|undefined, action:Action<a
     }
     return {};
 }
+
+const enhancer:any = compose(
+    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
+        // persistState()
+    );
+
 // Передаётся reducer и начальное состояние
-export const store = createStore(updateStore, initState, (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__());
+export const store = createStore(updateStore, initState, enhancer);
 
 render((
     <Provider store={store}>
-        <BrowserRouter>
-            <div>
-                <Route exact path={"/"} component={LoginView} />
-                <Route exact path={"/register"} component={RegView} />
-                <Route exact path={"/msg"} component={MsgView} />
-            </div>
-        </BrowserRouter>
+            <BrowserRouter>
+                <div>
+                    <Route exact path={"/"} component={LoginView} />
+                    <Route exact path={"/register"} component={RegView} />
+                    <Route exact path={"/msg"} component={MsgView} />
+                </div>
+            </BrowserRouter>
     </Provider>
 ), document.getElementById("root"));

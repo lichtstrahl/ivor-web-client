@@ -81,6 +81,7 @@ class LoginView extends React.Component<Props, any> {
                 if (typeof data !== 'undefined') {
                     this.props.onSetCurrentUser(data);
                     this.props.onSetCurrentActivity(MainViewState.ACTIVITY_MSG);
+                    localStorage.setItem("USER", JSON.stringify(data));
                 } else {
                     alert(res.data.msg);
                 }

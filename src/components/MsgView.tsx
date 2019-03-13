@@ -33,12 +33,21 @@ enum CommunicationType {
 
 class MsgView extends React.Component<Props, any> {
     // private input:string = "";
-    private user:User = this.props.globalState.currentUser;
+    private user:User;
     private adapter:Array<Message> = [];
     private messageList:React.ReactNode = <MessageList messages={this.adapter}/>;
     private lastCommunicationType:CommunicationType = CommunicationType.NONE;
     private lastCommunicationID:number = -1;
     private visibleButtons:boolean = false;
+
+    constructor(prp:Props) {
+        super(prp);
+        this.user = this.props.globalState.currentUser;
+        if (typeof this.user.realName === 'undefined') {
+            this.user = JSON.parse(""+localStorage.getItem("USER"));
+        }
+
+    }
 
     render() {
 
