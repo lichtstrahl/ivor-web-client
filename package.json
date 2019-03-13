@@ -24,7 +24,8 @@
     "react-scripts": "^2.1.5",
     "redux": "4.0.1",
     "redux-localstorage": "^0.4.1",
-    "redux-persist": "^5.10.0"
+    "redux-persist": "^5.10.0",
+    "typescript": "^3.3.3333"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -43,7 +44,7 @@
   ],
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",
-    "source-map-loader": "^0.2.4",
-    "typescript": "^3.2.4"
+    "source-map-loader": "^0.2.4"
+
   }
 }

@@ -15,7 +15,7 @@ export default class Label extends React.Component<LabelProps, any> {
 
     render() {
         return (
-            <div>
+            <div style={{marginLeft: "10"}}>
                 {this.text}
             </div>
         )

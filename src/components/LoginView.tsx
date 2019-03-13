@@ -36,30 +36,24 @@ class LoginView extends React.Component<Props, any> {
             return <Redirect to={"/msg"}/>
         }
 
-
         return (
-          <div>
-              <input type={"text"} ref={(input) => {this.inputTrack = input}}/>
-              <button onClick={this.addTrack.bind(this)}>Add track</button>
-
-              <Label text={"Вход"}/>
-              <form>
-                  <label>
-                      Login:
-                      <input type={"text"} name={"inputLogin"} placeholder={"логин"} ref={(input) => {this.inputLogin = input}} />
-                  </label>
-                  <br/>
-                  <label>
-                      Password:
-                      <input type={"password"} name={"inputPass"} placeholder={"Пароль"} ref={(input) => {this.inputPassword = input}}/>
-                  </label>
-                  <br/>
-                  <Button variant={"outline-primary"} onClick={this.clickLogin.bind(this)}>Войти</Button>
-              </form>
-              <Link to={'/register'}><Button variant={"outline-secondary"}>Регистрация</Button></Link>
-          </div>
-
-
+                <div>
+                    <Label text={"Вход"}/>
+                    <form>
+                      <label>
+                          Login:
+                          <input type={"text"} name={"inputLogin"} placeholder={"логин"} ref={(input) => {this.inputLogin = input}} />
+                      </label>
+                      <br/>
+                      <label>
+                          Password:
+                          <input type={"password"} name={"inputPass"} placeholder={"Пароль"} ref={(input) => {this.inputPassword = input}}/>
+                      </label>
+                      <br/>
+                      <Button variant={"outline-primary"} onClick={this.clickLogin.bind(this)}>Войти</Button>
+                    </form>
+                    <Link to={'/register'}><Button variant={"outline-secondary"}>Регистрация</Button></Link>
+                </div>
         );
     }
 
