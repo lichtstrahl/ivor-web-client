@@ -3,6 +3,7 @@ import axios from 'axios'
 import {BASE_URL, OK} from '../../const'
 import {User} from "../../types/user";
 import {ServerAnswer} from "../../types/serveranswer";
+import {Redirect} from "react-router";
 
 type Props = {
     successfulRegistration : () => void
@@ -20,10 +21,12 @@ export default class Registration extends React.Component<Props, {}>{
     private readonly inputLogin     : React.ReactNode;
     private readonly inputPassword  : React.ReactNode;
     private readonly inputPassword2 : React.ReactNode;
+    private finishRegistration      : boolean;
 
     constructor(props:Props) {
         super(props);
 
+        this.finishRegistration = false;
         this.successfulRegistrationCallback = props.successfulRegistration;
         this.pass = this.pass2 = "";
         this.user = {realName:"", email:"",city:"",age:0,login:"",pass:"",admin:null,lastEntry:new Date()};
@@ -66,6 +69,10 @@ export default class Registration extends React.Component<Props, {}>{
     }
 
     render() {
+        if (this.finishRegistration) {
+            return <Redirect to={'/'}/>
+        }
+
         return (
             <form onSubmit={this.registration.bind(this)}>
                 {this.inputRealName}<br/>
@@ -97,7 +104,7 @@ export default class Registration extends React.Component<Props, {}>{
                         };
 
                         if (answer.error == OK) {
-                            this.successfulRegistrationCallback();
+                            this.finishRegistration = true;
                         } else {
                             alert(answer.msg);
                         }

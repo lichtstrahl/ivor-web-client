@@ -5,14 +5,15 @@ import MessageList from "./primitive/MessageList/MessageList";
 import {Button, Card, FormControl, InputGroup, ButtonGroup} from "react-bootstrap";
 import {Message} from "../types/message";
 import axios, {AxiosResponse} from 'axios'
-import {BASE_URL} from "../const";
+import {BASE_URL, COOKIE_USER} from "../const";
 import './style.css';
 import {ServerAnswer} from "../types/serveranswer";
 import {EvaluationRequest} from "../types/EvaluationRequest";
+import {ReactCookieProps} from "react-cookie";
 
-type Props = {
+interface Props extends ReactCookieProps {
     user : User
-}
+};
 
 enum CommunicationType {
     COMMUNICATION,

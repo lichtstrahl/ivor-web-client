@@ -3,6 +3,7 @@ import axios, {AxiosResponse} from 'axios'
 import {BASE_URL} from '../../const'
 import {User} from "../../types/user";
 import {Button} from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 type LoginProps = {
     successfulLogin : ()=>{},
@@ -18,11 +19,13 @@ export default class Login extends React.Component<LoginProps,LoginState> {
     private readonly successfulLoginCallback: (user:User)=>{};
     private readonly failedLoginCallback: (msg:string)=>{};
 
+
     constructor(props:LoginProps) {
         super(props);
 
         this.successfulLoginCallback = props.successfulLogin;
         this.failedLoginCallback = props.failedLogin;
+
 
         this.state = {
             login : "",
