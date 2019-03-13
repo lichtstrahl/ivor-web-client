@@ -1,123 +1,65 @@
-// import Label from "./primitive/Label";
-// import * as React from 'react'
-// import * as Redux from 'redux';
-// import {Button} from "react-bootstrap";
-// import {Link} from "react-router-dom";
-//
-// import {connect} from "react-redux";
-// import axios, {AxiosResponse} from "axios";
-// import {BASE_URL} from "../const";
-// import {store} from "../index";
-// import {func} from "prop-types";
-// import {Action} from "redux";
-//
-// interface Props extends Action {
-//     count:number
-// }
-//
-// interface State {
-//     currentState:string
-// }
-//
-// class LoginView extends React.Component<Props, State> {
-//     private successfulLogin :boolean;
-//     private inputLogin      :string;
-//     private inputPassword   :string;
-//
-//     constructor(props: Props) {
-//         super(props);
-//         this.successfulLogin = false;
-//         this.inputLogin = "";
-//         this.inputPassword = "";
-//         console.log(this);
-//         this.clickLogin.bind(this);
-//         this.changeLoginText.bind(this);
-//         this.changePasswordText.bind(this);
-//     }
-//
-//     render() {
-//         return (
-//             <div>
-//                 <Label text={"Вход"}/>
-//                 <form>
-//                     <label>
-//                         Login:
-//                         <input type={"text"} name={"inputLogin"} placeholder={"логин"} onChange={this.changeLoginText.bind(this)} />
-//                     </label>
-//                     <br/>
-//                     <label>
-//                         Password:
-//                         <input type={"password"} name={"inputPass"} placeholder={"Пароль"} onChange={this.changePasswordText.bind(this)}/>
-//                     </label>
-//                     <br/>
-//                     <Button variant={"outline-primary"} onClick={this.clickLogin.bind(this)}>Войти</Button>
-//                 </form>
-//                 <Link to={'/register'}><Button variant={"outline-secondary"}>Регистрация</Button></Link>
-//             </div>
-//         )
-//     }
-//
-//     clickLogin = (event:any) => {
-//         axios.post(BASE_URL + "/api/login", {login:this.inputLogin, pass:this.inputPassword})
-//             .then((res:AxiosResponse) => {
-//                 let data = res.data;
-//                 console.log(data);
-//                 // data.error == 0 ? (this.successfulLoginCallback(data.data)) : (this.failedLoginCallback(data.msg));
-//
-//             });
-//         event.preventDefault(); // Чтобы избежать перезагрузки страницы
-//     };
-//
-//     changeLoginText = (event:any) => {
-//         this.inputLogin = event.target.value;
-//     };
-//
-//     changePasswordText = (event:any) => {
-//         this.inputPassword = event.target.value;
-//         // this.setState({password: event.target.value})
-//     };
-// }
-//
-// function mapDispatchToProps(dispatch: Redux.Dispatch<Props>) {
-//     return dispatch({type: "A_!", count: 0});
-// }
-//
-// function mapStateToProps(state:State) {
-//     return {label: "CurrentState: " + state.currentState};
-// }
-//
-// export default connect(
-//     mapStateToProps,
-//     mapDispatchToProps
-// )(LoginView);
-
 import * as React from "react";
 import * as Redux from "react-redux";
-import {addNewTrack} from "../action";
+import {addNewTrack, setCurrentActivity, setCurrentUser} from "../types/action";
+import {State} from "../types/State";
+import Label from "./primitive/Label";
+import Button from "react-bootstrap/Button";
+import {Link, Redirect} from "react-router-dom";
+import {User} from "../types/user";
+import {BASE_URL, MainViewState} from "../const";
+import axios, {AxiosResponse} from "axios";
 
 type PropsStore = {
-    globalStore:any
+    globalState:State
 }
 
 type PropsDispatch = {
     onAddTrack: (a:string) => void
+    onSetCurrentUser: (usr:User) => void,
+    onSetCurrentActivity: (activity:number) => void
 }
 
 type Props = PropsStore & PropsDispatch;
 
 class LoginView extends React.Component<Props, any> {
-    private inputTrack:HTMLInputElement|null = null;
+    private inputTrack      :HTMLInputElement|null = null;
+    private inputLogin      :HTMLInputElement|null = null;
+    private inputPassword   :HTMLInputElement|null = null;
+
+    constructor(props:Props) {
+        super(props);
+    }
 
     render(): React.ReactNode {
-        console.log("Render login view: ",this.props.globalStore);
+        let state:State = this.props.globalState;
+        if (state.currentActivity == MainViewState.ACTIVITY_MSG) {
+            return <Redirect to={"/msg"}/>
+        }
+
+
         return (
           <div>
               <input type={"text"} ref={(input) => {this.inputTrack = input}}/>
               <button onClick={this.addTrack.bind(this)}>Add track</button>
-              <ul>
-                  {this.props.globalStore.map((track:any, i:number) => <li key={i}>{track}</li>)}
-              </ul>
-          </div>  
+
+              <Label text={"Вход"}/>
+              <form>
+                  <label>
+                      Login:
+                      <input type={"text"} name={"inputLogin"} placeholder={"логин"} ref={(input) => {this.inputLogin = input}} />
+                  </label>
+                  <br/>
+                  <label>
+                      Password:
+                      <input type={"password"} name={"inputPass"} placeholder={"Пароль"} ref={(input) => {this.inputPassword = input}}/>
+                  </label>
+                  <br/>
+                  <Button variant={"outline-primary"} onClick={this.clickLogin.bind(this)}>Войти</Button>
+              </form>
+              <Link to={'/register'}><Button variant={"outline-secondary"}>Регистрация</Button></Link>
+          </div>
+
+
         );
     }
 
@@ -129,23 +71,41 @@ class LoginView extends React.Component<Props, any> {
             this.inputTrack!.value = '';
         }
     }
+
+    clickLogin(event:any) {
+        let log:string = this.inputLogin!.value;
+        let pas:string = this.inputPassword!.value;
+        axios.post(BASE_URL + "/api/login", {login:log, pass:pas})
+            .then((res:AxiosResponse) => {
+                let data:User = res.data.data;
+                if (typeof data !== 'undefined') {
+                    this.props.onSetCurrentUser(data);
+                    this.props.onSetCurrentActivity(MainViewState.ACTIVITY_MSG);
+                } else {
+                    alert(res.data.msg);
+                }
+            });
+    }
 }
 
-// Передаётся две функции.
-// 1 - Мапит state из Стора в Props React-компонента.
-// 2 -
 export default Redux.connect(
     state =>  {
         let prp:PropsStore = {
-            globalStore:state
+            globalState:(state as State)
         };
         return prp;
     },
     dispatch => {
         let prp:PropsDispatch = {
-          onAddTrack: (trackName:string) => {
-              dispatch(addNewTrack(trackName))
-          }
+            onAddTrack: (trackName:string) => {
+                dispatch(addNewTrack(trackName))
+            },
+            onSetCurrentUser: (usr:User) => {
+                dispatch(setCurrentUser(usr))
+            },
+            onSetCurrentActivity: (a:number) => {
+                dispatch(setCurrentActivity(a));
+            }
         };
         return prp;
     }

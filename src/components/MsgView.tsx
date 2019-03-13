@@ -10,10 +10,20 @@ import './style.css';
 import {ServerAnswer} from "../types/serveranswer";
 import {EvaluationRequest} from "../types/EvaluationRequest";
 import {ReactCookieProps} from "react-cookie";
+import {State} from "../types/State";
+import * as Redux from "react-redux";
+import {addNewTrack, setCurrentActivity, setCurrentUser} from "../types/action";
 
-interface Props extends ReactCookieProps {
-    user : User
-};
+type PropsStore = {
+    globalState:State
+}
+
+type PropsDispatch = {
+    onClickYes  : () => void,
+    onClickNo   : () => void
+}
+
+type Props = PropsStore & PropsDispatch;
 
 enum CommunicationType {
     COMMUNICATION,
@@ -21,19 +31,18 @@ enum CommunicationType {
     NONE
 }
 
-export default class MsgView extends React.Component<Props, {}> {
-    private input:string = "";
-    private user:User = this.props.user;
+class MsgView extends React.Component<Props, any> {
+    // private input:string = "";
+    private user:User = this.props.globalState.currentUser;
     private adapter:Array<Message> = [];
     private messageList:React.ReactNode = <MessageList messages={this.adapter}/>;
     private lastCommunicationType:CommunicationType = CommunicationType.NONE;
     private lastCommunicationID:number = -1;
     private visibleButtons:boolean = false;
 
-
     render() {
-        let size:string = '90%';
 
+        let size:string = '90%';
         this.messageList = <MessageList messages={this.adapter}/>;
         let buttonPanel:ReactNode = <Card className="mx-auto" style={{width: size}}>
             <ButtonGroup>
@@ -45,7 +54,6 @@ export default class MsgView extends React.Component<Props, {}> {
         if (!this.visibleButtons) {
             buttonPanel = <div></div>;
         }
-
 
         return (
             <div>
@@ -67,14 +75,14 @@ export default class MsgView extends React.Component<Props, {}> {
     }
 
     clickSend (event:React.MouseEvent<HTMLButtonElement, MouseEvent>):void {
-        console.log("Отправить");
-        let input:any = document.getElementById("input");
+        let input:HTMLInputElement = document.getElementById("input") as HTMLInputElement;
 
         let msg:Message = {
-            content:input.value,
+            content:input!.value,
             author:this.user,
             date: new Date()
         };
+        console.log("Отправка", msg);
 
         axios.post(BASE_URL + "/api/request", {request: input.value})
             .then((res:AxiosResponse) => {
@@ -83,7 +91,7 @@ export default class MsgView extends React.Component<Props, {}> {
                 console.log(res);
                 console.log(answer);
                 let msg:Message = {
-                  content:res.data.data.answer,
+                  content:answer.answer,
                   author:null,
                   date: new Date()
                 };
@@ -147,3 +155,23 @@ export default class MsgView extends React.Component<Props, {}> {
         this.forceUpdate();
     };
 }
+
+export default Redux.connect(
+    state =>  {
+        let prp:PropsStore = {
+            globalState:(state as State)
+        };
+        return prp;
+    },
+    dispatch => {
+        let prp:PropsDispatch = {
+            onClickYes: () => {
+
+            },
+            onClickNo: () => {
+
+            }
+        };
+        return prp;
+    }
+)(MsgView);
