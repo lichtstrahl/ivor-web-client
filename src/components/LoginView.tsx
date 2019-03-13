@@ -93,6 +93,7 @@
 
 import * as React from "react";
 import * as Redux from "react-redux";
+import {addNewTrack} from "../action";
 
 type PropsStore = {
     globalStore:any
@@ -143,7 +144,7 @@ export default Redux.connect(
     dispatch => {
         let prp:PropsDispatch = {
           onAddTrack: (trackName:string) => {
-              dispatch({type: "ADD", name: trackName})
+              dispatch(addNewTrack(trackName))
           }
         };
         return prp;
