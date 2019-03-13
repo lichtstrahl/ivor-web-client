@@ -4,30 +4,22 @@ import {BrowserRouter, Route} from "react-router-dom"
 import LoginView from "./components/LoginView";
 import RegView from "./components/RegView";
 import MsgView from "./components/MsgView";
-import {createStore, DeepPartial, compose} from "redux"
+import {compose, createStore} from "redux"
 import {Provider} from "react-redux"
-import {State} from "./types/State";
-import persistState from "redux-localstorage";
 
 
-import {
-    Action,
-    ActionType,
-    parseAddTrackAction,
-    parseSetCurrentActivity,
-    parseSetCurrentUserAction
-} from "./types/action";
+import {ActionType, parseAddTrackAction, parseSetCurrentActivity, parseSetCurrentUserAction} from "./types/action";
 
-const initState:DeepPartial<State> = {
+const initState =  {
     currentActivity: 0,
     currentUser: {},
     tracks: []
 };
 
 // Данные неизменные
-export function updateStore(_state:DeepPartial<State>|undefined, action:Action<any>):DeepPartial<State> {
+export function updateStore(_state, action) {
     if (typeof _state !== 'undefined') {
-        let state:DeepPartial<State> = {
+        let state = {
             currentActivity: _state.currentActivity,
             currentUser: _state.currentUser,
             tracks: _state.tracks
@@ -43,7 +35,7 @@ export function updateStore(_state:DeepPartial<State>|undefined, action:Action<a
                 return state;
 
             case ActionType.ACTION_ADD_TRACK:
-                state.tracks!.push(parseAddTrackAction(action));
+                state.tracks.push(parseAddTrackAction(action));
                 return state;
             default:
                 return state;
@@ -52,8 +44,8 @@ export function updateStore(_state:DeepPartial<State>|undefined, action:Action<a
     return {};
 }
 
-const enhancer:any = compose(
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
+const enhancer = compose(
+    (window).__REDUX_DEVTOOLS_EXTENSION__ && (window).__REDUX_DEVTOOLS_EXTENSION__(),
         // persistState()
     );
 

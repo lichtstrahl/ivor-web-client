@@ -1,5 +1,4 @@
 import {User} from "./user";
-import {func} from "prop-types";
 
 export enum ActionType {
     ACTION_SET_USER,
