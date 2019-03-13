@@ -22,23 +22,29 @@ class Store {
     constructor(state, updateState) {
         this._state = state;
         this._update = updateState;
+        this._callbacks = [];
     }
 
     update(action) {
         this._state = this._update(this._state, action);
+        this._callbacks.forEach(callback => callback());
     };
 
     get state() {
         return this._state;
     }
+
+    subscribe(callback) {
+        this._callbacks.push(callback);
+        return () => this._callbacks = this._callbacks.filter(cb => cb !== callback);
+    }
+
+
 }
 
 const store = new Store(0, updateState);
-
-console.log(store.state);
+const unsubscribe = store.subscribe(() => console.log("State changed1: " + store.state));
 store.update(incA);
-console.log(store.state);
 store.update(decA);
-console.log(store.state);
+unsubscribe();
 store.update({});
-console.log(store.state);
