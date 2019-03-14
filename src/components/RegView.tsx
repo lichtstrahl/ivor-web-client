@@ -62,7 +62,7 @@ export default class RegView extends React.Component<Props, {}> {
                 pass:       this.inputPass!.value,
                 lastEntry:  new Date(),
                 admin:      null
-            }
+            };
 
             axios.post(BASE_URL + "/api/register", usr)
                 .then((res) => {

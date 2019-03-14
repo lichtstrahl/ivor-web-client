@@ -2,17 +2,18 @@ import React, {ReactNode} from 'react'
 
 import {User} from '../types/user'
 import MessageList from "./primitive/MessageList/MessageList";
-import {Button, Card, FormControl, InputGroup, ButtonGroup} from "react-bootstrap";
+import {Button, ButtonGroup, Card, FormControl, InputGroup} from "react-bootstrap";
 import {Message} from "../types/message";
 import axios, {AxiosResponse} from 'axios'
-import {BASE_URL, COOKIE_USER} from "../const";
+import {BASE_URL} from "../const";
 import './style.css';
-import {ServerAnswer} from "../types/serveranswer";
 import {EvaluationRequest} from "../types/EvaluationRequest";
-import {ReactCookieProps} from "react-cookie";
 import {State} from "../types/State";
 import * as Redux from "react-redux";
-import {addNewTrack, setCurrentActivity, setCurrentUser} from "../types/action";
+import {Link, withRouter} from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 type PropsStore = {
     globalState:State
@@ -33,7 +34,7 @@ enum CommunicationType {
 
 class MsgView extends React.Component<Props, any> {
     // private input:string = "";
-    private user:User;
+    private user:User = this.props.globalState.currentUser;;
     private adapter:Array<Message> = [];
     private messageList:React.ReactNode = <MessageList messages={this.adapter}/>;
     private lastCommunicationType:CommunicationType = CommunicationType.NONE;
@@ -42,15 +43,12 @@ class MsgView extends React.Component<Props, any> {
 
     constructor(prp:Props) {
         super(prp);
-        this.user = this.props.globalState.currentUser;
         if (typeof this.user.realName === 'undefined') {
             this.user = JSON.parse(""+localStorage.getItem("USER"));
         }
-
     }
 
     render() {
-
         let size:string = '90%';
         this.messageList = <MessageList messages={this.adapter}/>;
         let buttonPanel:ReactNode = <Card className="mx-auto" style={{width: size}}>
@@ -67,15 +65,23 @@ class MsgView extends React.Component<Props, any> {
         return (
             <div>
                 <Card className="mx-auto" style={{width:size}}>
-                    <Card.Body>Добро пожаловать, {this.user.realName}</Card.Body>
+                    <Card.Body>
+                        <Container>
+                            <Row>
+                                <Col>Добро пожаловать, {this.user.realName}</Col>
+                                <Col><Link to={"/"}><Button>Сменить пользователя</Button></Link></Col>
+                            </Row>
+                        </Container>
+                    </Card.Body>
                 </Card>
                 {buttonPanel}
                 {this.messageList}
                 <div style={{width:size, margin:'auto'}}>
                     <InputGroup className={"mb-3"} >
-                        <FormControl id={"input"} placeholder={"Введите сообщение"}/>
+                        <FormControl id={"input"} placeholder={"Введите сообщение"} />
                         <InputGroup.Append>
                             <Button variant={"dark"} onClick={this.clickSend.bind(this)}>Отправить</Button>
+                            <Button variant={"warning"} onClick={this.clickReset.bind(this)}>Очистить</Button>
                         </InputGroup.Append>
                     </InputGroup>
                 </div>
@@ -133,6 +139,14 @@ class MsgView extends React.Component<Props, any> {
         this.forceUpdate();
     }
 
+    clickReset():void {
+        let input:HTMLInputElement = document.getElementById("input") as HTMLInputElement;
+        this.adapter.length = 0;
+        input.value = "";
+        this.visibleButtons = false;
+        this.forceUpdate();
+    }
+
     clickYes = (event:React.MouseEvent<HTMLButtonElement, MouseEvent>):void => {
         this.visibleButtons = false;
         const requestBody:EvaluationRequest = {
@@ -165,22 +179,13 @@ class MsgView extends React.Component<Props, any> {
     };
 }
 
-export default Redux.connect(
+// @ts-ignore
+export default withRouter(Redux.connect(
     state =>  {
         let prp:PropsStore = {
             globalState:(state as State)
         };
         return prp;
     },
-    dispatch => {
-        let prp:PropsDispatch = {
-            onClickYes: () => {
-
-            },
-            onClickNo: () => {
-
-            }
-        };
-        return prp;
-    }
-)(MsgView);
+    dispatch => {return {};}
+)(MsgView));

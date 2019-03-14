@@ -2,19 +2,13 @@ import React, {ReactNode} from 'react'
 import {Message} from "../../../types/message";
 import MessageItem from "../MessageItem/MessageItem";
 import './style.css'
-import {element} from "prop-types";
 
 type Props = {
     messages: Array<Message>
 }
 
 export default class MessageList extends React.Component<Props, any> {
-    private messagesEnd:HTMLDivElement|null;
-
-    constructor(p:Props) {
-        super(p);
-        this.messagesEnd = null;
-    }
+    private messagesEnd:HTMLDivElement|null = null;
 
     render(): React.ReactNode {
         const messageElements:Array<ReactNode> = [];
@@ -23,7 +17,6 @@ export default class MessageList extends React.Component<Props, any> {
             const node:React.ReactNode  = <MessageItem key = {i} msg={this.props.messages[i]}/>;
             messageElements.push(node);
         }
-
 
         return (
             <div>
@@ -44,15 +37,11 @@ export default class MessageList extends React.Component<Props, any> {
         }
     };
 
-
     componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<any>, snapshot?: any): void {
-        console.log("update");
         this.scrollBottom();
     }
 
-
     componentDidMount(): void {
-        console.log("mount");
         this.scrollBottom();
     }
 }

@@ -5,7 +5,7 @@ import {State} from "../types/State";
 import Label from "./primitive/Label";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container"
-import {Link, Redirect} from "react-router-dom";
+import {Link, Redirect, withRouter} from "react-router-dom";
 import {User} from "../types/user";
 import {BASE_URL, MainViewState} from "../const";
 import axios, {AxiosResponse} from "axios";
@@ -28,15 +28,15 @@ class LoginView extends React.Component<Props, any> {
     private inputTrack      :HTMLInputElement|null = null;
     private inputLogin      :HTMLInputElement|null = null;
     private inputPassword   :HTMLInputElement|null = null;
+    private goToMsg         :boolean = false;
 
     constructor(props:Props) {
         super(props);
     }
 
     render(): React.ReactNode {
-        let state:State = this.props.globalState;
-        if (state.currentActivity == MainViewState.ACTIVITY_MSG) {
-            return <Redirect to={"/msg"}/>
+        if (this.goToMsg) {
+            return <Redirect push={true} to={"/msg"}/>
         }
 
         return (
@@ -88,8 +88,10 @@ class LoginView extends React.Component<Props, any> {
                 let data:User = res.data.data;
                 if (typeof data !== 'undefined') {
                     this.props.onSetCurrentUser(data);
-                    this.props.onSetCurrentActivity(MainViewState.ACTIVITY_MSG);
+                    // this.props.onSetCurrentActivity(MainViewState.ACTIVITY_MSG);
+                    this.goToMsg = true;
                     localStorage.setItem("USER", JSON.stringify(data));
+                    this.forceUpdate();
                 } else {
                     alert(res.data.msg);
                 }
@@ -97,7 +99,8 @@ class LoginView extends React.Component<Props, any> {
     }
 }
 
-export default Redux.connect(
+// @ts-ignore
+export default withRouter(Redux.connect(
     state =>  {
         let prp:PropsStore = {
             globalState:(state as State)
@@ -118,4 +121,4 @@ export default Redux.connect(
         };
         return prp;
     }
-)(LoginView);
+)(LoginView));

@@ -54,12 +54,12 @@ export const store = createStore(updateStore, initState, enhancer);
 
 render((
     <Provider store={store}>
-            <BrowserRouter>
-                <div>
-                    <Route exact path={"/"} component={LoginView} />
-                    <Route exact path={"/register"} component={RegView} />
-                    <Route exact path={"/msg"} component={MsgView} />
-                </div>
-            </BrowserRouter>
+        <BrowserRouter>
+            <div>
+                <Route  exact={true} path={"/register"} component={RegView} />
+                <Route  exact={true} path={"/msg"}      component={MsgView} />
+                <Route  exact={true} path={"/"}         component={LoginView}/>
+            </div>
+        </BrowserRouter>
     </Provider>
 ), document.getElementById("root"));
