@@ -4,10 +4,13 @@ import {addNewTrack, setCurrentActivity, setCurrentUser} from "../types/action";
 import {State} from "../types/State";
 import Label from "./primitive/Label";
 import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container"
 import {Link, Redirect} from "react-router-dom";
 import {User} from "../types/user";
 import {BASE_URL, MainViewState} from "../const";
 import axios, {AxiosResponse} from "axios";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 type PropsStore = {
     globalState:State
@@ -37,23 +40,34 @@ class LoginView extends React.Component<Props, any> {
         }
 
         return (
-                <div>
-                    <Label text={"Вход"}/>
-                    <form>
-                      <label>
-                          Login:
-                          <input type={"text"} name={"inputLogin"} placeholder={"логин"} ref={(input) => {this.inputLogin = input}} />
-                      </label>
-                      <br/>
-                      <label>
-                          Password:
-                          <input type={"password"} name={"inputPass"} placeholder={"Пароль"} ref={(input) => {this.inputPassword = input}}/>
-                      </label>
-                      <br/>
+                <Container className={"mx-auto"} style={{width: "40%"}}>
+                    <Row className={"justify-content-md-center"}>
+                        <label>Вход</label>
+                    </Row>
+                    <Row className={"justify-content-md-center"}>
+                        <Col >
+                            <label>Login:</label>
+                        </Col>
+                        <Col>
+                        <input type={"text"} name={"inputLogin"} placeholder={"логин"} ref={(input) => {this.inputLogin = input}} />
+                        </Col>
+                    </Row>
+                    <Row className={"justify-content-md-center"}>
+                        <Col>
+                        <label>Password:</label>
+                        </Col>
+                        <Col>
+                        <input type={"password"} name={"inputPass"} placeholder={"Пароль"} ref={(input) => {this.inputPassword = input}}/>
+                        </Col>
+                    </Row>
+                    <Row className={"justify-content-md-center"}>
                       <Button variant={"outline-primary"} onClick={this.clickLogin.bind(this)}>Войти</Button>
-                    </form>
-                    <Link to={'/register'}><Button variant={"outline-secondary"}>Регистрация</Button></Link>
-                </div>
+                    </Row>
+
+                    <Row className={"justify-content-md-center"}>
+                        <Link to={'/register'}><Button variant={"outline-secondary"}>Регистрация</Button></Link>
+                    </Row>
+                </Container>
         );
     }
 

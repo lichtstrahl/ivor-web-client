@@ -7,6 +7,8 @@ import {User} from "../types/user";
 import axios from "axios";
 import {BASE_URL, OK} from "../const";
 import {ServerAnswer} from "../types/serveranswer";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 
 
 type Props = {
@@ -29,19 +31,23 @@ export default class RegView extends React.Component<Props, {}> {
         }
 
         return (
-            <div>
-                <Label text={"Регистрация"}/>
-                <form onSubmit={this.registration.bind(this)}>
-                    <input type={"text"} placeholder={"Реальное имя"}   ref={el => {this.inputName = el} }/><br/>
-                    <input type={"text"} placeholder={"Email"}          ref={el => {this.inputEmail = el} }/><br/>
-                    <input type={"text"} placeholder={"Возраст"}        ref={el => {this.inputAge = el} }/><br/>
-                    <input type={"text"} placeholder={"Город"}          ref={el => {this.inputCity = el} }/><br/>
-                    <input type={"text"} placeholder={"Логин"}          ref={el => {this.inputLogin = el} }/><br/>
-                    <input type={"text"} placeholder={"Пароль"}         ref={el => {this.inputPass = el} }/><br/>
-                    <input type={"text"} placeholder={"Повтор пароля"}  ref={el => {this.inputPass2 = el} }/><br/>
-                    <input type={"submit"} value={"Зарегестрироваться"}/>
-                </form>
-            </div>
+            <Container className={"mx-auto"} style={{width:"50%"}}>
+                <Row className={"justify-content-md-center"}>
+                    <Label text={"Регистрация"}/>
+                </Row>
+                <Row className={"justify-content-md-center"}>
+                    <form onSubmit={this.registration.bind(this)}>
+                        <input type={"text"} placeholder={"Реальное имя"}   ref={el => {this.inputName = el} }/><br/>
+                        <input type={"text"} placeholder={"Email"}          ref={el => {this.inputEmail = el} }/><br/>
+                        <input type={"text"} placeholder={"Возраст"}        ref={el => {this.inputAge = el} }/><br/>
+                        <input type={"text"} placeholder={"Город"}          ref={el => {this.inputCity = el} }/><br/>
+                        <input type={"text"} placeholder={"Логин"}          ref={el => {this.inputLogin = el} }/><br/>
+                        <input type={"text"} placeholder={"Пароль"}         ref={el => {this.inputPass = el} }/><br/>
+                        <input type={"text"} placeholder={"Повтор пароля"}  ref={el => {this.inputPass2 = el} }/><br/>
+                        <input type={"submit"} value={"Зарегестрироваться"} style={{margin: "100"}}/>
+                    </form>
+                </Row>
+            </Container>
         );
     }
 
